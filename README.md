@@ -1,7 +1,7 @@
 ## Setup
 
 - Download and install [Visual Studio Code](https://code.visualstudio.com).
-- Download and install the latest version of (Python)[https://www.python.org/downloads/].
+- Download and install the latest version of [Python](https://www.python.org/downloads/).
 - Launch VS Code and install the Python Extension from Microsoft.
 - Clone and then copy this repository to the location of your choice. The folder structure and included files are set up with git in mind. 
 - Open a terminal window in Visual Studio Code and run `pip install -r requirements.txt`.
