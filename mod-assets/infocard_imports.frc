@@ -1,0 +1,21 @@
+S 458753 DLL Start Point
+S 458754 Test Infocard Name 1
+S 458755 Test Infocard Name 2
+S 458756 Test Infocard Name 3
+S 458757 Test Infocard Name 4
+S 458758 Test Infocard Name 5
+
+H 458759
+	\bTEST INFOCARD INFO 1:\B
+	\l
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+H 458760
+	\m\b\bTEST INFOCARD INFO 2:\B
+	\l
+	Sed posuere ipsum vehicula velit sagittis, sed porta eros congue. Etiam faucibus magna non urna rutrum dictum. Aliquam erat volutpat. Vestibulum ac condimentum lacus. Sed nec odio id odio auctor auctor. Nam nisl felis, bibendum ut sapien viverra, ornare rutrum tellus. Donec a imperdiet lectus.
+
+H 45875961
+	\m\bTEST INFOCARD INFO 3\B
+	\l
+	In ultricies tempus est, ut tincidunt libero maximus eget. Nam leo risus, aliquam quis sapien sed, pulvinar fermentum augue. Curabitur venenatis, sem ac pulvinar ornare, erat eros dignissim lorem, at mollis lorem leo nec dui. Etiam facilisis egestas massa, sit amet placerat justo semper rutrum. Cras neque nunc, elementum ut purus nec, sodales rhoncus nibh. Phasellus vel urna urna. Duis auctor massa neque, ac consectetur lectus ultricies eu. Suspendisse vitae diam sed nulla ullamcorper fermentum vitae sit amet ex. Nunc aliquet orci vitae metus luctus congue.
