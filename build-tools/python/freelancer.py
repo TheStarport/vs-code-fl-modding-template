@@ -163,7 +163,7 @@ def crash_check():
             t = time.localtime()
             current_time = time.strftime("%H:%M:%S", t)
             fl_running_end_time = time.perf_counter() 
-            print(bcolors.FAIL + f"{freelancer_name}, PID {freelancer_pid} has stopped unexpectedly at {current_time} after running for {fl_running_end_time - fl_running_start_time:0.4f} seconds. Fetching crash event from Application logs.. " + bcolors.ENDC)
+            print(bcolors.FAIL + f"{freelancer_name}, PID {freelancer_pid} has stopped unexpectedly at {current_time} after running for {fl_running_end_time - fl_running_start_time:0.4f} seconds. Fetching crash event from Application logs... " + bcolors.ENDC)
             fetch_crash_offset()
             stop_threads = True
             raise SystemExit
