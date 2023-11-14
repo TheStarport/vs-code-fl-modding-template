@@ -12,11 +12,13 @@ xml_path = f"{root_copy_path}\\mod-assets\\XML\\FX\\"
 
 from concurrent.futures import ThreadPoolExecutor
 
-#This uses brute force to convert UTF and XML because I couldn't be bothered to figure out queues.
-def run_io_tasks_in_parallel(tasks):
-    with ThreadPoolExecutor(max_workers=5000) as executor:
-        running_tasks = [executor.submit(task) for task in tasks]
-        return running_tasks
+def run_io_tasks_in_parallel(tasks, batch_size=8):
+    with ThreadPoolExecutor(max_workers=batch_size) as executor:
+        for i in range(0, len(tasks), batch_size):
+            batch = tasks[i:i+batch_size]
+            futures = [executor.submit(task) for task in batch]
+            for future in concurrent.futures.as_completed(futures):
+                yield future.result()
 
 def utf_to_xml_thread():
     for file in os.listdir(utf_path):
