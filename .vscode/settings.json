@@ -9,6 +9,7 @@
         "**/*.mat": true,
         "**/*.anm": true,
         "**/*.dfm": true,
+        "**/.thorn-cache": true,
     },
     "editor.wordWrap": "off",
     "files.associations": {

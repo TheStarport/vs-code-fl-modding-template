@@ -5,6 +5,7 @@ from checks import *
 from copy_assets import *
 from freelancer import *
 from infocards import *
+from thorn import *
 from utf import *
 from utils import *
 
@@ -15,6 +16,7 @@ parser.add_argument("--skip_checks", help="Skips validation and checking stages.
 parser.add_argument("--ignore_xml", help="Skips the conversion of XML into UTF.", action="store_true")
 parser.add_argument("--ignore_utf", help="Skips the conversion of UTF into XML.", action="store_true")
 parser.add_argument("--ignore_infocards", help="Skips the compiling of infocards from infocard_imports.frc", action="store_true")
+parser.add_argument("--lua_to_thorn", help="Encodes lua to thorn format before copying.", action="store_true")
 
 args = parser.parse_args()
 
@@ -38,7 +40,6 @@ if not args.ignore_utf:
     utf_xml_end_time = time.perf_counter() 
     print(f"Converted UTF files at '{utf_path}' to XML in {utf_xml_end_time - utf_xml_start_time:0.4f} seconds")
 
-
 if not args.ignore_xml:
     xml_utf_start_time = time.perf_counter() 
     print(f"Converting XML files at '{xml_path}' to UTF format...")                         
@@ -51,8 +52,18 @@ if not args.skip_checks:
 else:
     print(bcolors.WARNING + "Warning, checks have been disabled. You may experience copy errors if any instances of Freelancer are still running" + bcolors.ENDC)
 
+if args.lua_to_thorn:
+    lua_thorn_start_time = time.perf_counter() 
+    print(f"Encoding LUA files to Thorn from '{lua_path}'...")  
+    lua_to_thorn_thread()
+    lua_thorn_end_time = time.perf_counter() 
+    print(f"LUA files encoded to Thorn in {lua_thorn_end_time - lua_thorn_start_time:0.4f} seconds")
+
 if not args.no_copy:
     copy_files()
+
+if args.lua_to_thorn and not args.no_copy:
+     copy_thorn_cleanup_cache()
 
 build_script_end_time = time.perf_counter() 
 print(bcolors.HEADER + f"Build script completed in {build_script_end_time - build_script_start_time:0.4f} seconds" + bcolors.ENDC)
