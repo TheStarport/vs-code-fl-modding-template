@@ -24,7 +24,6 @@ def utf_to_xml_thread():
     for file in glob.glob(f"{utf_path}\\**\\*", recursive=True):
         if file.endswith(utf_types):
             filename = os.path.basename(file)
-            #output_path = file.replace(utf_path, xml_path).replace(filename, "")
             executor.submit(convert_file_utf_xml, file, xml_path)
 
     executor.shutdown()
