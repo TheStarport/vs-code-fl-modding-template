@@ -20,3 +20,13 @@ freelancer_pid = 0
 fl_running_start_time = 0
 stop_threads = False
 tail_flspew = True
+
+def create_dirtree_without_files(src, dst):
+    src = os.path.abspath(src)
+    src_prefix = len(src) + len(os.path.sep)
+    os.makedirs(dst)
+    for root, dirs, files in os.walk(src):
+        for dirname in dirs:
+
+            dirpath = os.path.join(dst, root[src_prefix:], dirname)
+            os.mkdir(dirpath)
