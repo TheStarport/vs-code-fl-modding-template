@@ -10,6 +10,7 @@
         "**/*.anm": true,
         "**/*.dfm": true,
         "**/.thorn-cache": true,
+        "**/.bini-cache": true,
     },
     "editor.wordWrap": "off",
     "files.associations": {

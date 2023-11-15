@@ -21,11 +21,12 @@ Once set up in Visual Studio Code, you can start the script by using the 'Start 
 - `--ignore_utf`: Don't convert any XML files into UTF. If you're not building UTFs from XML source using this option can save a substantial amount of build time.
 - `--ignore_infocards`: Don't build any infocards from infocard_imports.frc. This is unlikely to save much time, but if you're not working with custom strings there isn't much point in using the infocard module.
 - `--lua_to_thorn`: Uses Thorn.exe to encode any .lua files as thorn before copying them over to FL_PATH. If you run this with `--no_copy` the files arecan be examined in the `.thorn-cache` folder generated in the root of the repository.
+-  `--ini-to-bini`: Uses Bini.exe to encode any .ini files as binary ini before copying them over to FL_PATH. If you run this with `--no_copy` the files arecan be examined in the `.bini-cache` folder generated in the root of the repository.
 
 Log tailing is set up to work with the default FLSpew.txt location. If your mod moves FLSpew, you'll need to adjust the `flspew_log_path` variable in freelancer.py. Crash handling will attempt to correlate the offset and module from a crash with [the list on the Starport KnowledgeBase](https://wiki.the-starport.net/wiki/fl-binaries/crash-offsets), but will fall back to a local file included with this repository if it's unable to reach the remote site.
 
 ## Credit
 
-- Many thanks to Adoxa and Sir Lancelot for creating the [Freelancer XML Project](http://adoxa.altervista.org/freelancer/tools.html#xmlproject), and [Freelancer Resource Compiler](http://adoxa.altervista.org/freelancer/tools.html#frc), which this set of scripts uses to handle .utf files and infocards respectively, as well as [DeThorn](http://adoxa.altervista.org/freelancer/tools.html#dethorn), the module used to optionally encode .lua scripts to compressed Thorn format.
+- Many thanks to Adoxa and Sir Lancelot for creating the [Freelancer XML Project](http://adoxa.altervista.org/freelancer/tools.html#xmlproject), and [Freelancer Resource Compiler](http://adoxa.altervista.org/freelancer/tools.html#frc), which this set of scripts uses to handle .utf files and infocards respectively, as well as [DeThorn](http://adoxa.altervista.org/freelancer/tools.html#dethorn), the module used to optionally encode .lua scripts to compressed Thorn format and [Bini](http://adoxa.altervista.org/freelancer/tools.html#bini), which encodes ini as binary ini format for fast reading.
 
 - Huge thanks to [Laz](https://github.com/orgs/TheStarport/people/Lazrius) for helping write the original PowerShell scripts this project started as, and also in translating them to Python.

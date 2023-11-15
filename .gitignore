@@ -437,3 +437,4 @@ FodyWeavers.xsd
 enc_temp_folder/*
 
 .thorn-cache/
+.bini-cache/

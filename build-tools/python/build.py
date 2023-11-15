@@ -1,6 +1,7 @@
 import argparse
 import time
 
+from bini import *
 from checks import *
 from copy_assets import *
 from freelancer import *
@@ -17,6 +18,7 @@ parser.add_argument("--ignore_xml", help="Skips the conversion of XML into UTF."
 parser.add_argument("--ignore_utf", help="Skips the conversion of UTF into XML.", action="store_true")
 parser.add_argument("--ignore_infocards", help="Skips the compiling of infocards from infocard_imports.frc", action="store_true")
 parser.add_argument("--lua_to_thorn", help="Encodes lua to thorn format before copying.", action="store_true")
+parser.add_argument("--ini_to_bini", help="Encodes ini to bini format before copying.", action="store_true")
 
 args = parser.parse_args()
 
@@ -64,6 +66,16 @@ if not args.no_copy:
 
 if args.lua_to_thorn and not args.no_copy:
      copy_thorn_cleanup_cache()
+
+if args.ini_to_bini:
+    ini_bini_start_time = time.perf_counter() 
+    print(f"Encoding INI files to BINI from '{ini_path}'...")  
+    ini_to_bini_thread()
+    ini_bini_end_time = time.perf_counter() 
+    print(f"INI files encoded to BINI in {ini_bini_end_time - ini_bini_start_time:0.4f} seconds")
+
+if args.ini_to_bini and not args.no_copy:
+     copy_bini_cleanup_cache()
 
 build_script_end_time = time.perf_counter() 
 print(bcolors.HEADER + f"Build script completed in {build_script_end_time - build_script_start_time:0.4f} seconds" + bcolors.ENDC)
