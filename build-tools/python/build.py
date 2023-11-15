@@ -32,10 +32,19 @@ if not args.ignore_infocards:
     compile_infocards()
 
 if not args.ignore_utf:
-    utf_to_xml()
+    utf_xml_start_time = time.perf_counter() 
+    print(f"Converting UTF files at '{utf_path}' to XML format...")
+    utf_to_xml_thread()
+    utf_xml_end_time = time.perf_counter() 
+    print(f"Converted UTF files at '{utf_path}' to XML in {utf_xml_end_time - utf_xml_start_time:0.4f} seconds")
+
 
 if not args.ignore_xml:
-    xml_to_utf()
+    xml_utf_start_time = time.perf_counter() 
+    print(f"Converting XML files at '{xml_path}' to UTF format...")                         
+    xml_to_utf_thread()
+    xml_utf_end_time = time.perf_counter() 
+    print(f"Converted XML files at '{xml_path}' to UTF in {xml_utf_end_time - xml_utf_start_time:0.4f} seconds")
 
 if not args.skip_checks:
     validate_process_stopped()

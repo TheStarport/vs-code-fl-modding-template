@@ -1,45 +1,46 @@
 # Decompiles UTF files to XML and then back again for version control.
-import concurrent.futures
+import glob
 import os
 import subprocess
-import time
 
 from utils import *
 
-utf_types = ".ale", ".txm", ".mat", ".utf"
-utf_path = f"{root_copy_path}\\mod-assets\\DATA\\FX\\"
-xml_path = f"{root_copy_path}\\mod-assets\\XML\\FX\\"
-
+utf_types = (".3db", ".ale", ".cmp", ".mat", ".sph", ".txm", ".utf")
+utf_path = f"{root_copy_path}\\mod-assets\\DATA\\"
+xml_path = f"{root_copy_path}\\mod-assets\\XML\\"
+    
 from concurrent.futures import ThreadPoolExecutor
 
-#This uses brute force to convert UTF and XML because I couldn't be bothered to figure out queues.
-def run_io_tasks_in_parallel(tasks):
-    with ThreadPoolExecutor(max_workers=5000) as executor:
-        running_tasks = [executor.submit(task) for task in tasks]
-        return running_tasks
+# UTFXML.exe creates a 'path' key in the root node of anything it decompiles equal to utf_path + any subfolders. This path is used to recompile the .xml file into .utf when XMLUTF.exe is called. If you're importing .xml files to convert. .utf, make sure this key is set correctly.
+def convert_file_utf_xml(input_file, output_file):
+    return_code = subprocess.Popen(["build-tools\\UTFXML.exe",
+                      "-agi", "-o", output_file, input_file]).wait()
+    if return_code !=0:
+        print(bcolors.FAIL + f"Failed to convert {input_file}" + bcolors.ENDC)
 
 def utf_to_xml_thread():
-    for file in os.listdir(utf_path):
-            if file.endswith(utf_types):
-                yield lambda: subprocess.Popen(["build-tools\\UTFXML.exe", "-agi" ,"-o", xml_path, f"{utf_path}\\{file}"]).wait()
+    executor = ThreadPoolExecutor(max_workers = 128)
+
+    for file in glob.glob(f"{utf_path}\\**\\*", recursive=True):
+        if file.endswith(utf_types):
+            filename = os.path.basename(file)
+            #output_path = file.replace(utf_path, xml_path).replace(filename, "")
+            executor.submit(convert_file_utf_xml, file, xml_path)
+
+    executor.shutdown()
+
+def convert_file_xml_utf(input_file, output_file):
+    return_code = subprocess.Popen(["build-tools\\XMLUTF.exe",
+                      "-o", output_file, input_file]).wait()
+    if return_code !=0:
+        print(bcolors.FAIL + f"Failed to convert {input_file}" + bcolors.ENDC)
 
 def xml_to_utf_thread():
-    for file in os.listdir(xml_path):
-            if file.endswith(".xml"):
-                yield lambda: subprocess.Popen(["build-tools\\XMLUTF.exe", "-o", f"{utf_path}\\..", f"{xml_path}\\{file}"]).wait()
+    executor = ThreadPoolExecutor(max_workers = 128)
 
-def utf_to_xml():
-    utf_xml_start_time = time.perf_counter() 
-    print(f"Converting UTF files at '{utf_path}' to XML format...")                         
-    tasks = run_io_tasks_in_parallel(utf_to_xml_thread())
-    results = [future.result() for future in concurrent.futures.as_completed(tasks)]
-    utf_xml_end_time = time.perf_counter() 
-    print(f"Converted UTF files at '{utf_path}' to XML in {utf_xml_end_time - utf_xml_start_time:0.4f} seconds")
+    for file in glob.glob(f"{xml_path}\\**\\*.xml", recursive=True):
+        filename = os.path.basename(file)
+        output_path = file.replace(xml_path, utf_path).replace(filename, "")
+        executor.submit(convert_file_xml_utf, file, output_path)
 
-def xml_to_utf():
-    xml_utf_start_time = time.perf_counter() 
-    print(f"Converting XML files at '{xml_path}' to UTF format...")                         
-    tasks = run_io_tasks_in_parallel(xml_to_utf_thread())
-    results = [future.result() for future in concurrent.futures.as_completed(tasks)]
-    xml_utf_end_time = time.perf_counter() 
-    print(f"Converted XML files at '{xml_path}' to UTF in {xml_utf_end_time - xml_utf_start_time:0.4f} seconds")
+    executor.shutdown()
